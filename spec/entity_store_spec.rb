@@ -35,7 +35,7 @@ describe Rack::Cms::EntityStore do
     end
     
     it 'always returns JSON, even though we set strings' do
-      @store['json'] = '{ foo:"bar" }'
+      @store['json'] = { :foo => "bar" }
       @store['json'].should == { 'foo' => 'bar' }
       
       @store['string'] = 'asdf'

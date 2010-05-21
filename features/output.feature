@@ -37,7 +37,7 @@ Feature: Outputting markup
       """
     And this page's values are:
       | title         | content                                 |
-      | Rich Content  | I replaced you!        |
+      | Rich Content  | I replaced you!                         |
       | Profile Image | { src: '/images/replaced.jpg' }         |
     When the page is rendered
     Then the response should be the following:
