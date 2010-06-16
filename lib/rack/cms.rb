@@ -5,32 +5,80 @@ require 'active_support'
 module Rack::Cms
   autoload :EntityStore,      'rack/cms/entity_store'
   autoload :Converter,        'rack/cms/converter'
-  
+  autoload :Editor,           'rack/cms/editor'
+
   AVAILABLE_ATTRIBUTES = %w(ctitle ctype cunique)
-  
+
   def self.new(app)
     Handler.new(app)
   end
-  
+
   class Handler
-    include Converter
-    
-    attr_accessor :store, :doc
-    
+    include Converter, Editor
+
+    PUBLIC_DIRECTORY = '/__rack_cms__'
+    MIME_TYPES = ['text/html', 'application/xhtml+xml']
+
+
+    attr_accessor :original_request, :store, :doc
+
     def initialize(app)
-      @app = app
+      @app = Rack::Static.new(app, :urls => [PUBLIC_DIRECTORY], :root => public_path)
       self.store = EntityStore.new(:Hash)
     end
-    
+
     def call(env)
-      status, headers, body = @app.call(env)
-      self.doc = Nokogiri::HTML(body)
-      
-      convert_doc
-      
-      [status, headers, doc.to_html]
+      @env = env
+      self.original_request = Rack::Request.new(env)
+
+
+      return @app.call(env) if original_request.path_info =~ /^#{PUBLIC_DIRECTORY}/
+
+      updating? ? store_placeholder : process_document
     end
-    
+
+    def public_path
+      ::File.expand_path(::File.dirname(__FILE__) + '/cms/public')
+    end
+
+
+    private
+
+      def store_placeholder
+        key = @env['X-Placeholder']
+        store[key] = original_request.body
+        [200, {}, []]
+      end
+
+      def process_document
+        status, headers, body = @app.call(@env)
+        @response = Rack::Response.new(body, status, headers)
+        
+        return @response.to_a unless modify?
+        
+        self.doc = Nokogiri::HTML([body].flatten.first)
+
+        store.prefix = page_prefix
+
+        inject_toolbar if editing_mode?
+        convert_editable_nodes
+
+        Rack::Response.new(doc.to_html, status, headers).finish
+      end
+
+      def modify?
+        @response.ok? && MIME_TYPES.include?(@response.content_type.split(";").first)
+      end
+
+      def updating?
+        original_request.path_info =~ /__update__$/
+      end
+
+      def editing_mode?
+        return false unless original_request
+        original_request.cookies['rack_cms_enabled']
+      end
+
   end
-  
+
 end

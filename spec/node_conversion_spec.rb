@@ -40,10 +40,9 @@ describe 'Converting placeholder nodes' do
   
   
   def set_doc(body)
-    body = %|<html><body>#{body}</body></html>|
     @rack.doc = Nokogiri::HTML::DocumentFragment.parse(body)
-    @rack.convert_doc
-    @converted_doc = @rack.doc.to_html.gsub('<html><body>','').gsub('</body></html>','').gsub("\n",'')
+    @rack.convert_editable_nodes
+    @converted_doc = @rack.doc.to_html.gsub("\n",'')
   end
   
 end

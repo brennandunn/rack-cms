@@ -6,8 +6,8 @@ Given /^I have the following markup:$/ do |string|
 end
 
 When /^the page is rendered$/ do
-  @env = Rack::MockRequest.env_for('/','HTTP_ACCEPT' => 'text/*')
-  @response_body = @instance.call(@env)[2]
+  @env = Rack::MockRequest.env_for('/','HTTP_ACCEPT' => 'text/*', 'HTTP_COOKIE' => @cookies)
+  @response_body = @instance.call(@env)[2].body.first
 end
 
 Then /^the response should be the following:$/ do |string|

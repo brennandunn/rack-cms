@@ -46,5 +46,13 @@ describe Rack::Cms::EntityStore do
     end
     
   end
+  
+  describe 'Prefixes' do
+    
+    it 'joins the prefix and key with a pipe' do
+      
+    end
+    
+  end
 
 end
