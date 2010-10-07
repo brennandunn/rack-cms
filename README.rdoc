@@ -1,6 +1,26 @@
-= rack-cms
+= rack-cms, lightweight content management
 
-Description goes here.
+rack-cms will work with any Rack-enabled application, and provides a lightweight and non-intrusive means of allowing people to make simple copy changes.
+
+The premise is simple: apply a 'ctitle' attribute to any editable element. When an admin views the page, some javascript is embedded into the document and allows these elements to be edited inline. The admin can then update the copy and it's persisted. When a normal user views the same page, the ctitle attributes are stripped out and nothing additional is injected into the document.
+
+rack-cms was heavily inspired by rack-bug
+
+
+== TODOs
+
+* Spruce up the embedded editor (JS)
+* A bookmarklet to toggle between admin/viewer modes
+* Security outside of the existence of a cookie
+* Ability to manage more than just text (i.e. images)
+* More backends (currently only Redis is supported)
+
+
+== Example
+
+ cd example
+ rackup
+
 
 == Note on Patches/Pull Requests
  
@@ -14,4 +34,4 @@ Description goes here.
 
 == Copyright
 
-Copyright (c) 2010 Brennan Dunn. See LICENSE for details.
+Copyright (c) 2010 Brennan Dunn, We Are Titans. See LICENSE for details.
