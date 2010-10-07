@@ -3,6 +3,6 @@ Given /^I am in editing mode$/ do
 end
 
 When /^the placeholder "([^\"]*)" is saved with "([^\"]*)"$/ do |placeholder, content|
-  @env = Rack::MockRequest.env_for('/__update__', :method => 'PUT', :input => ActiveSupport::JSON.decode(content), 'X-Placeholder' => placeholder, 'HTTP_ACCEPT' => 'text/*', 'HTTP_COOKIE' => @cookies)
+  @env = Rack::MockRequest.env_for('/__update__', :method => 'PUT', :params => { placeholder => ActiveSupport::JSON.decode(content) }, 'HTTP_ACCEPT' => 'text/*', 'HTTP_COOKIE' => @cookies)
   @response_body = @instance.call(@env)[2]
 end
