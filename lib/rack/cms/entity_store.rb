@@ -13,10 +13,6 @@ module Rack::Cms
       @backend = fetch_backend(backend).new
     end
     
-    def prefix=(prefix)
-      @prefix = prefix
-    end
-    
     def [](key)
       if string = @backend.get(key)
         ActiveSupport::JSON.decode(string)

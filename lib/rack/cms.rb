@@ -67,8 +67,6 @@ module Rack::Cms
         
         self.doc = Nokogiri::HTML([body].flatten.first)
 
-        store.prefix = page_prefix
-
         inject_toolbar if editing_mode?
         convert_editable_nodes
 
