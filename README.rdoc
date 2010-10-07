@@ -4,6 +4,9 @@ rack-cms will work with any Rack-enabled application, and provides a lightweight
 
 The premise is simple: apply a 'ctitle' attribute to any editable element. When an admin views the page, some javascript is embedded into the document and allows these elements to be edited inline. The admin can then update the copy and it's persisted. When a normal user views the same page, the ctitle attributes are stripped out and nothing additional is injected into the document.
 
+An editable element:
+  <h1 ctitle="Site Header">Default Title Here</h1>
+
 rack-cms was heavily inspired by rack-bug
 
 
