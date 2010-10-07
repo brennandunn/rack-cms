@@ -26,7 +26,7 @@ Feature: Editing a page
       <html>
         <head>
           <title>Edit me</title>
-          <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script><script type="text/javascript" src="/__rack_cms__/editor.js"></script><link type="text/css" rel="stylesheet" href="/__rack_cms__/editor.css">        </head>
+          <script type="text/javascript" src="/__rack_cms__/jquery.js"></script><script type="text/javascript" src="/__rack_cms__/editor.js"></script><link type="text/css" rel="stylesheet" href="/__rack_cms__/editor.css">        </head>
         <body>
           <div ctype="rich" ctitle="Rich Content">I should not change</div>
           <img ctitle="Profile Image" src="/images/example.jpg"><div id="rack_cms_toolbar"></div>
@@ -45,7 +45,7 @@ Feature: Editing a page
       <html>
         <head>
           <title>Edit me</title>
-          <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script><script type="text/javascript" src="/__rack_cms__/editor.js"></script><link type="text/css" rel="stylesheet" href="/__rack_cms__/editor.css">
+          <script type="text/javascript" src="/__rack_cms__/jquery.js"></script><script type="text/javascript" src="/__rack_cms__/editor.js"></script><link type="text/css" rel="stylesheet" href="/__rack_cms__/editor.css">
         </head>
         <body>
           <div ctype="rich" ctitle="Rich Content">I replaced you!</div>
@@ -64,7 +64,7 @@ Feature: Editing a page
       <html>
         <head>
           <title>Edit me</title>
-          <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script><script type="text/javascript" src="/__rack_cms__/editor.js"></script><link type="text/css" rel="stylesheet" href="/__rack_cms__/editor.css">
+          <script type="text/javascript" src="/__rack_cms__/jquery.js"></script><script type="text/javascript" src="/__rack_cms__/editor.js"></script><link type="text/css" rel="stylesheet" href="/__rack_cms__/editor.css">
         </head>
         <body>
           <div ctype="rich" ctitle="Rich Content">Look at me!</div>

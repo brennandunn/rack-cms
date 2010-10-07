@@ -1,6 +1,7 @@
 require 'rack'
 require 'nokogiri'
 require 'active_support'
+require 'active_support/json'
 
 module Rack::Cms
   autoload :EntityStore,      'rack/cms/entity_store'
@@ -24,7 +25,7 @@ module Rack::Cms
 
     def initialize(app)
       @app = Rack::Static.new(app, :urls => [PUBLIC_DIRECTORY], :root => public_path)
-      self.store = EntityStore.new(:Hash)
+      self.store = EntityStore.new(:Redis)
     end
 
     def call(env)
@@ -45,9 +46,17 @@ module Rack::Cms
     private
 
       def store_placeholder
-        key = @env['X-Placeholder']
-        store[key] = original_request.body
-        [200, {}, []]
+        if editing_mode?
+          if key = original_request.params.keys.first
+            store[key] = original_request.params[key]
+            status = 200
+          else
+            status = 304
+          end
+        else
+          status = 401
+        end
+        [status, { 'Content-Type' => 'text/html' }, []]
       end
 
       def process_document

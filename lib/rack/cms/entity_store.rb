@@ -1,5 +1,6 @@
 require 'rack/cms/entity_store/backend'
 require 'rack/cms/entity_store/hash'
+require 'rack/cms/entity_store/redis'
 
 module Rack::Cms
   

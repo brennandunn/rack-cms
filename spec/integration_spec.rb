@@ -42,10 +42,24 @@ describe 'Using as middleware' do
   end
 
   describe 'updates' do
-    before do
+
+    it 'returns Not Modified if no params are sent' do
       set_cookie 'rack_cms_enabled=1'
+      put '/__update__'
+      last_response.status.should == 304
     end
 
+    it 'returns OK if stored' do
+      set_cookie 'rack_cms_enabled=1'
+      put '/__update__', 'foo' => 'bar'
+      last_response.should be_ok
+    end
+
+    it 'returns a Bad Request when not authorized' do
+      put '/__update__', 'foo' => 'bar'
+      last_response.status.should == 401
+    end
+    
   end
 
 end

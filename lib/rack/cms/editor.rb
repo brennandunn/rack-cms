@@ -19,7 +19,7 @@ module Rack::Cms
       end
       
       markup = <<-HTML
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+        <script type="text/javascript" src="/__rack_cms__/jquery.js"></script>
         <script type="text/javascript" src="/__rack_cms__/editor.js"></script>
         <link type="text/css" rel="stylesheet" href="/__rack_cms__/editor.css" />
       HTML
