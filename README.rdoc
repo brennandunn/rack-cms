@@ -13,8 +13,6 @@ rack-cms was heavily inspired by rack-bug
 == TODOs
 
 * Spruce up the embedded editor (JS)
-* A bookmarklet to toggle between admin/viewer modes
-* Security outside of the existence of a cookie
 * Ability to manage more than just text (i.e. images)
 * More backends (currently only Redis is supported)
 

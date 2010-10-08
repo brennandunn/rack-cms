@@ -13,3 +13,7 @@
   height: 200px;
   background: red;
 }
+
+.editable {
+  cursor: pointer;
+}
