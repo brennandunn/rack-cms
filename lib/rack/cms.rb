@@ -10,8 +10,8 @@ module Rack::Cms
 
   AVAILABLE_ATTRIBUTES = %w(ctitle ctype cunique)
 
-  def self.new(app)
-    Handler.new(app)
+  def self.new(app, options={})
+    Handler.new(app, options)
   end
 
   class Handler
@@ -23,9 +23,10 @@ module Rack::Cms
 
     attr_accessor :original_request, :store, :doc
 
-    def initialize(app)
+    def initialize(app, options)
       @app = Rack::Static.new(app, :urls => [PUBLIC_DIRECTORY], :root => public_path)
-      self.store = EntityStore.new(:Redis)
+      @options = options
+      self.store = EntityStore.new(@options[:entity_store] || :Redis)
     end
 
     def call(env)
@@ -42,49 +43,51 @@ module Rack::Cms
       ::File.expand_path(::File.dirname(__FILE__) + '/cms/public')
     end
 
-
-    private
-
-      def store_placeholder
-        if editing_mode?
-          if key = original_request.params.keys.first
-            store[key] = original_request.params[key]
-            status = 200
-          else
-            status = 304
-          end
+    def store_placeholder
+      if editing_mode?
+        if key = original_request.params.keys.first
+          store[key] = original_request.params[key]
+          status = 200
         else
-          status = 401
+          status = 304
         end
-        [status, { 'Content-Type' => 'text/html' }, []]
+      else
+        status = 401
       end
+      [status, { 'Content-Type' => 'text/html' }, []]
+    end
 
-      def process_document
-        status, headers, body = @app.call(@env)
-        @response = Rack::Response.new(body, status, headers)
-        
-        return @response.to_a unless modify?
-        
-        self.doc = Nokogiri::HTML([body].flatten.first)
+    def process_document
+      status, headers, body = @app.call(@env)
+      @response = Rack::Response.new(body, status, headers)
+      
+      return @response.to_a unless modify?
+      
+      self.doc = Nokogiri::HTML([body].flatten.first)
 
-        inject_toolbar if editing_mode?
-        convert_editable_nodes
+      inject_toolbar if editing_mode?
+      convert_editable_nodes
 
-        Rack::Response.new(doc.to_html, status, headers).finish
-      end
+      Rack::Response.new(doc.to_html, status, headers).finish
+    end
 
-      def modify?
-        @response.ok? && MIME_TYPES.include?(@response.content_type.split(";").first)
-      end
+    def modify?
+      @response.ok? && MIME_TYPES.include?(@response.content_type.split(";").first)
+    end
 
-      def updating?
-        original_request.path_info =~ /__update__$/
-      end
+    def updating?
+      original_request.path_info =~ /__update__$/
+    end
 
-      def editing_mode?
-        return false unless original_request
+    def editing_mode?
+      return false unless original_request
+      if @options[:password]
+        supplied_password = original_request.cookies['rack_cms_enabled']
+        supplied_password == @options[:password]
+      else
         original_request.cookies['rack_cms_enabled']
       end
+    end
 
   end
 
