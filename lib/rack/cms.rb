@@ -83,7 +83,7 @@ module Rack::Cms
       return false unless original_request
       if @options[:password]
         supplied_password = original_request.cookies['rack_cms_enabled']
-        supplied_password == @options[:password]
+        supplied_password == Digest::SHA1.hexdigest(@options[:password])
       else
         original_request.cookies['rack_cms_enabled']
       end

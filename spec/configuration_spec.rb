@@ -5,13 +5,13 @@ describe 'Configuring rack-cms' do
   context 'applying a password' do
     
     it 'is in editing mode when password matches' do
-      cms = Rack::Cms.new(TestApp.new, :password => 'password')
-      cms.call Rack::MockRequest.env_for('/', 'HTTP_COOKIE' => 'rack_cms_enabled=password')
+      cms = Rack::Cms.new(TestApp.new, :password => 'example')
+      cms.call Rack::MockRequest.env_for('/', 'HTTP_COOKIE' => 'rack_cms_enabled=c3499c2729730a7f807efb8676a92dcb6f8a3f8f')
       cms.editing_mode?.should be_true
     end
     
     it 'is not in editing mode if the password does not match' do
-      cms = Rack::Cms.new(TestApp.new, :password => 'password')
+      cms = Rack::Cms.new(TestApp.new, :password => 'example')
       cms.call Rack::MockRequest.env_for('/', 'HTTP_COOKIE' => 'rack_cms_enabled=fake')
       cms.editing_mode?.should be_false
     end
