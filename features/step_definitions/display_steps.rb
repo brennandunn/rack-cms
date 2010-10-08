@@ -2,7 +2,7 @@ Given /^I have the following markup:$/ do |string|
   @page_body = string
   @app = mock('Some Rack App')
   @app.stub!(:call).and_return([200, {'Content-Type' => 'text/html'}, string])
-  @instance = Rack::Cms.new(@app)
+  @instance = Rack::Cms.new(@app, :entity_store => :Hash)
 end
 
 When /^the page is rendered$/ do
