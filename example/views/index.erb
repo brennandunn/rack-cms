@@ -5,23 +5,36 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-	<title>untitled</title>
+	<title>Rack::Cms Example</title>
+
+  <style type="text/css">
+    
+    html, body { margin: 0; padding: 0; }
+    body { width: 700px; margin: 60px auto; font: 16px Georgia, "Times New Roman", serif; color: #222; }
+    
+    h1 { color: red; }
+    h2 { border-bottom: 8px solid #eee; padding-bottom: 10px; margin-bottom: 15px; }
+    p { line-height: 28px; }
+    
+  </style>
 
 </head>
 
 <body>
 
-  <h1 ctitle="Header">Default Header</h1>
+  <h1 ctitle="Headline">Welcome!</h1>
   
-  <p>hola</p>
+  <h2 ctitle="Motto">This page showcases the features of Rack::Cms</h2>
   
-  <div ctitle="Mission Statement" ctype="rich">
-    Default mission statement goes here!
-  </div>
+  <p>
+    Rack::Cms allows you to give your clients the ability to quickly (and safely make copy changes).
+    To use, simply apply the "ctitle" attribute to any element you allow to be editable. Even spans. 
+    <span ctitle="Span example">Go ahead, try to edit this.</span> The goal of the library is to solve 
+    the age old problem that plagues most Ruby developers: how can I let my clients edit the copy in 
+    their application.
+  </p>
   
-  <hr/>
-  
-  <div ctitle="More stuff">More stuff here</div>
+  <div>Developed by Brennan Dunn of <a href="http://www.wearetitans.net">WE ARE TITANS</a></div>
 
 </body>
 </html>
